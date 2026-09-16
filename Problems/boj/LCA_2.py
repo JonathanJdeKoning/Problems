@@ -1,0 +1,68 @@
+from collections import defaultdict
+import sys
+
+class LCA:
+    def __init__(self, edges: dict, root):
+        from math import ceil, log2
+        self.N = len(edges)
+        self.LOG = ceil(log2(self.N))
+        self.root = root
+        self.E = edges
+        self.P = [[0]*self.LOG for _ in range(self.N)]
+        self.D = {0: 0}
+        self.old2New = {root: 0}
+
+    def process(self):
+        from collections import defaultdict
+        dfs = [self.root]
+        seen = set()
+        nodeID = 0
+        while dfs:
+            currOld = dfs.pop()
+            currNew = self.old2New[currOld]
+            seen.add(currOld)
+            for edgeOld in self.E[currOld]:
+                if edgeOld not in seen:
+                    nodeID += 1
+                    self.old2New[edgeOld] = nodeID
+
+                    dfs.append(edgeOld)
+
+                    self.P[nodeID][0] = currNew
+                    self.D[nodeID] = self.D[currNew]+1
+                    for j in range(1, self.LOG):
+                        self.P[nodeID][j] = self.P[self.P[nodeID][j-1]][j-1]           
+        self.new2Old = {v:k for k,v in self.old2New.items()}
+
+    def query(self, p, q):
+        p = self.old2New[p]
+        q = self.old2New[q]
+        if self.D[p] < self.D[q]:
+            p, q = q, p
+        k = self.D[p] - self.D[q]
+
+        for j in range(self.LOG-1, -1, -1):
+            if (k&(1<<j)):
+                p = self.P[p][j]
+        if p==q: return self.new2Old[p]
+        for j in range(self.LOG-1, -1, -1):
+            if (self.P[p][j] != self.P[q][j]):
+                p = self.P[p][j]
+                q = self.P[q][j]
+        return self.new2Old[self.P[p][0]]
+
+
+
+N = int(sys.stdin.readline().strip())
+edges = defaultdict(list)
+for _ in range(N-1):
+    U, V = list(map(int, sys.stdin.readline().strip().split()))
+    edges[U].append(V)
+    edges[V].append(U)
+
+lca = LCA(edges, 1)
+lca.process()
+Q = int(sys.stdin.readline().strip())
+for _ in range(Q):
+    p, q = list(map(int, sys.stdin.readline().strip().split()))
+    print(lca.query(p,q))

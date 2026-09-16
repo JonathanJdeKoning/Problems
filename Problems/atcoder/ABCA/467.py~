@@ -1,0 +1,7 @@
+H, W = map(int, input().split())
+BMI = W / H / H
+
+if BMI > 25:
+    print("Yes")
+else:
+    print("No")

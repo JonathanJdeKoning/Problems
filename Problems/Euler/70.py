@@ -1,0 +1,43 @@
+def euler_totient_product(n) :
+ 
+    result = n   # Initialize result as n
+      
+  # Iterate through all prime factors of n
+    p = 2
+    while p * p<= n :
+ 
+        # Check if p is a prime factor.
+        if n % p == 0 :
+ 
+            # If yes, then update n and result
+            while n % p == 0 :
+                n = n // p
+            result = result * (1.0 - (1.0 / float(p)))
+        p = p + 1
+         
+   # If n is prime
+    if n > 1 :
+        result -= result // n
+    return int(result)
+
+from collections import Counter
+def isPerm(n, m):
+    s, t = str(n), str(m)
+    return Counter(s) == Counter(t)
+    
+
+
+
+bestRat = 1000000000
+ans = -1
+for i in range(1,10000000):
+    if i%100000==0: print(i)
+    t = euler_totient_product(i)
+    
+    if not isPerm(i,t): continue
+    ratio = i/t
+    if ratio < bestRat:
+        bestRat = ratio
+        ans = i
+        print(f"{ans=}, {bestRat=}")
+print(ans)

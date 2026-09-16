@@ -1,0 +1,23 @@
+from bisect import bisect_left, bisect_right
+ans = 0
+MXDENOM = 12000
+
+START = 1/3
+END = 1/2
+
+def validStart(n,d):
+    f = n/d
+    return f > START
+def validEnd(n,d):
+    f = n/d
+    return f < END
+
+for denom in range(4, MXDENOM+1):
+    mnStart = bisect_left(range(denom//3-2),True, key=validStart)
+    mxEnd = bisect_right(range(denom//2+2),True, key=validEnd)
+    ans += mxEnd - mnStart + 1
+print(ans)
+    
+
+
+    

@@ -1,0 +1,39 @@
+from heapq import heappush, heappop
+N, X, Y, Z = map(int, input().split())
+A = list(map(int, input().split()))
+B = list(map(int, input().split()))
+
+used = set()
+mathHeap = []
+engHeap = []
+totHeap = []
+
+for i, (M,E) in enumerate(zip(A, B), start=1):
+    mathHeap.append((M, i))
+    engHeap.append((E, i))
+    totHeap.append((E+M, i))
+
+heapify(mathHeap)
+heapify(engHeap)
+heapify(totHeap)
+
+for _ in range(X):
+    score, id = heappop(mathHeap)
+    seen.add(id)
+    print(id)
+
+while Y:
+    score, id = heappop(engHeap)
+    if id in seen: continue
+    seen.add(id)
+    Y -= 1
+    print(id)
+
+while Z:
+    score, id = heappop(totHeap)
+    if id in seen: continue
+    seen.add(id)
+
+    Z -= 1
+    print(id)
+

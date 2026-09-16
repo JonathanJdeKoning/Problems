@@ -1,0 +1,23 @@
+N, K, Q = list(map(int, input().split()))
+A = list(map(int, input().split()))
+L = list(map(int, input().split()))
+
+arr = [0]*N
+
+for num in A:
+    arr[num-1] = 1
+
+
+
+for q in L:
+    for i, num in enumerate(A):
+        if num:
+            q -= 1
+            if q == 0:
+                if i < len(A) - 1 and not A[i+1]:
+                    A[i] = 0
+                    A[i+1] = 1
+                else:
+
+
+print(*[i+1 for i, x in enumerate(A) if x])

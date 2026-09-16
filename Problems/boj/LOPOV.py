@@ -1,13 +1,13 @@
-N, K =  list(map(int, input().replace(","," ").split()))
-items = []
-for _ in range(N):
-    M, V = list(map(int, input().replace(","," ").split()))
+from heapq import heappush, heappop
+from collections import Counter
+numJewels, numBags = list(map(int, input().split()))
+jewelArr = []
+for _ in range(numJewels):
+    jewelMass, jewelValue = list(map(int, input().split()))
+
+bagMultiSet = Counter()
+for _ in range(numBags):
+    bagMaxMass = int(input())
+    bagMultiSet[bagMaxMass] += 1
+
     
-    items.append((V,M))
-bags = []
-for _ in range(K):
-    bags.append(int(input()))
-bags.sort(reverse=True)
-items.sort(key=lambda x: (-x[0], x[1]))
-print(items)
-print(bags)

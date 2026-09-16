@@ -1,0 +1,15 @@
+G, W, H = input().split()
+wall = False
+for i in range(0, G, int(G>0)*2-1):
+    if not wall and i == H: exit(print(abs(G)))
+    if wall and i == H: exit(print(-1))
+    if i == W:
+        wall = True
+        
+if not wall:
+    print(abs(G))
+else:
+    print(abs(H)+ abs(H-G))
+    
+
+

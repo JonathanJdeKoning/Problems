@@ -1,0 +1,1 @@
+class Solution:countSeniors=lambda _,d:len([x for x in d if x[-4:-2]>"60"])

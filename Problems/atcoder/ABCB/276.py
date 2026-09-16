@@ -1,0 +1,8 @@
+N, M = map(int, input().split())
+E = {i:[] for i in range(1, N+1)}
+for _ in range(M):
+    U, V = map(int, input().split())
+    E[U].append(V)
+    E[V].append(U)
+for i in range(1, N+1):
+    print(" ".join(map(str, [len(E[i])] + sorted(E[i]))))

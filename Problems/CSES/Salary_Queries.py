@@ -1,0 +1,16 @@
+N, Q = map(int, input().split())
+A = list(map(int, input().split()))
+
+def lsb(n):
+    return n & (~n + 1)
+
+def parent(n):
+    return n + lsb(n)
+
+for i in range(len(A)):
+    ii = i + 1
+    pi = parent(ii)-1
+    if pi >= len(A): continue
+    A[pi] += A[i]
+
+print(A)

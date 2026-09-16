@@ -1,0 +1,6 @@
+S = input()
+if len(S) != 8: exit(print("No"))
+if not S[0].isalpha() or not S[-1].isalpha(): exit(print("No"))
+if not all(c.isdigit() for c in S[1:-1]): exit(print("No"))
+if S[1] == "0": exit(print("No"))
+print("Yes")

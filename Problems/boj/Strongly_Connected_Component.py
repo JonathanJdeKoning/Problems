@@ -1,36 +1,50 @@
 from collections import defaultdict
-from graphlib import TopologicalSorter
+from sys import setrecursionlimit
+setrecursionlimit(20000)
+
+N, E = list(map(int, input().split()))
 edges = {}
-N, K = list(map(int, input().replace(","," ").split()))
-for i in range(N): edges[i] = []
-for _ in range(N):
-    u, v = list(map(int, input().replace(","," ").split()))
-    edges[u-1].append(v-1)
+revEdges = {}
+for i in range(1, N+1):
+    edges[i] = []
+    revEdges[i] = []
+for _ in range(E):
+    U, V = list(map(int, input().split()))
+    edges[U].append(V)
+    revEdges[V].append(U)
 
 
-def find_SCC(graph):
-    SCC, S, P = [], [], []
-    depth = [0] * len(graph)
- 
-    stack = list(range(len(graph)))
-    while stack:
-        node = stack.pop()
-        if node < 0:
-            d = depth[~node] - 1
-            if P[-1] > d:
-                SCC.append(S[d:])
-                del S[d:], P[-1]
-                for node in SCC[-1]:
-                    depth[node] = -1
-        elif depth[node] > 0:
-            while P[-1] > depth[node]:
-                P.pop()
-        elif depth[node] == 0:
-            S.append(node)
-            P.append(len(S))
-            depth[node] = len(S)
-            stack.append(~node)
-            stack += graph[node]
-    return SCC[::-1]
 
-print(find_SCC(edges))
+seen = set()
+revOrder = []
+def dfs(node):
+    if node in seen: return
+    seen.add(node)
+    for edge in edges[node]:
+        if edge in seen: continue
+        dfs(edge)
+    revOrder.append(node)
+
+for node in edges:
+    if node in seen: continue
+    dfs(node)
+revOrder = revOrder[::-1]
+
+seen = set()
+scc = []
+def dfs(node):
+    if node in seen: return
+    seen.add(node)
+    for edge in revEdges[node]:
+        if edge in seen: continue
+        dfs(edge)
+    scc[-1].append(node)
+
+for node in revOrder:
+    if node in seen: continue
+    scc.append([])
+    dfs(node)
+
+print(len(scc))
+for group in sorted(scc, key=min):
+    print(" ".join(map(str, sorted(group))),-1)

@@ -1,0 +1,10 @@
+N, M, T = map(int, input().split())
+A = list(map(int, input().split()))
+for _ in range(M):
+    X, Y= map(int, input().split())
+    A[X-1] -= Y
+
+for room in A:
+    T -= room
+    if T<0: exit(print("No"))
+print("Yes")

@@ -1,0 +1,33 @@
+from itertools import permutations, combinations
+
+nums = list(range(1,11))
+
+
+poss = []
+for p in permutations(nums, 3):
+    if sum(p) == 16:
+        poss.append(p)
+
+good = set([1,2,3,4,5,6,7,8,9,10])
+solutions = []
+curr = []
+def solve(p,left):
+    curr.append(p)
+    if left == 0:exit(print(curr))
+    good.discard(p[0])
+    good.discard(p[1])
+    good.discard(p[2])
+
+    for np in poss:
+        if np[0] not in good: continue
+        if np[2] not in good: continue
+        if np[1] != p[2]: continue
+
+        solve(np, left-1)
+        curr.pop()
+        good.add(p[0])
+        good.add(p[1])
+        good.add(p[2])
+
+for p in poss:
+    solve(p, 4)

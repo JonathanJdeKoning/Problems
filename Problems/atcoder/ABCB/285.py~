@@ -1,0 +1,9 @@
+N = int(input())
+S = input()
+
+for gap in range(1, len(S)):
+    good = 0
+    for j in range(1, len(S)-gap):
+        if S[j] != S[j+gap]:
+            good += 1
+    print(good)

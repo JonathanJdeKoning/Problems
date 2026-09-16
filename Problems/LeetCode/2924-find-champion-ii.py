@@ -1,0 +1,1 @@
+class Solution:findChampion=lambda _,n,e:-1 if len((c:={*range(n)}-{x[1]for x in e}))!=1 else c.pop()

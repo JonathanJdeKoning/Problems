@@ -1,0 +1,1 @@
+class Solution:maximumPoints=lambda _,e,c:[(c+sum(e))//min(e)-1,0][c<min(e)]

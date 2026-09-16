@@ -1,0 +1,1 @@
+class Solution:getEncryptedString = lambda _,s,k:"".join([s[(i+k)%len(s)]for i,c in enumerate(s)])
